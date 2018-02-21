@@ -12,3 +12,7 @@ df=df.fillna(0)
 max = df.values.max()
 min = df.values.min()
 print(max, min)
+
+
+# python -m http.server
+# python -m SimpleHTTPServer

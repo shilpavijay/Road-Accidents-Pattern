@@ -20,89 +20,100 @@ d3.select(window).on("resize", sizeChange);
         var path = d3.geo.path()
             .projection(projection);
 
-        var svg = d3.select("#container")
+        var svg = d3.select("#map")
           .append("svg")
-          .attr("width", "100%")
+          .attr("width", "130%")
           .attr("height","100%")
           .append("g");
-
-        //TO SELECT YEAR THROUGH DROPDOWN
-        // var controls = d3.select("body")
-        //   .append("div")
-        //   .attr("id","controls");
-
-        // var sort_btn = controls.append("button")
-        //   .html("Sort data: Ascending")
-        //   .attr("state", 0);
 
         //Wait for data files to download before drawing
         queue()
           .defer(d3.json, "json/india_states.json")
-          .defer(d3.csv, "No_of_Road_Acc_2016.csv") //sample data
+          .defer(d3.csv, "No_of_Road_Acc.csv")
           .await(ready);
 
-        function ready(error, state, data) {
+        function ready(error, state, data) {           
             //Set up for visualizing sample data
-            var pairStateWithNo = {};
-            var pairStateWithRange = {};
-            // must come from the selection:
-            // var year = '2016'   
-            // var pairStateWithYear = {};
-            data.forEach(function(d) {
-              pairStateWithNo[d.States] = d.Number;
-              var range = '';
-              var len = String(d.Number).length;
+            function draw(yearSelected) {
+                var pairStateWithNo = {};     //StateName: NoOfAccidents
+                var pairStateWithRange = {};  //StateName: Range(<1000) 
+                data.forEach(function(d) {
+                  var accNum = d[yearSelected];
+                  pairStateWithNo[d.States] = accNum;
+                  var range = '';
+                  var len = String(accNum).length;
 
-              //Determining the Range of data:
-              switch(true) {
-                case (len >= color_domain[2].length - 1) && (d.Number < 20000): 
-                  range = 3;
-                  break;
-                case (len >= color_domain[2].length - 1) && (d.Number >= 20000):
-                  range = 4;
-                  break;
-                case (len == 4) && (d.Number < 10000):
-                  range = 2;
-                  break;
-                case (len > 2) && (d.Number < 1000):
-                  range = 1;
-                  break;
-                case (len <= 2):
-                  range = 0;
-                  break;
-              }
-              pairStateWithRange[d.States] = color_domain[range];
-            });
-
-
-            //Drawing state boundaries          
-            var state_geojson = topojson.feature(state, state.objects.india_states);
-            svg.selectAll(".state")
-                .data(state_geojson.features)
-                .enter().append("path")
-                .attr("class", "state")
-                .attr("d", path)
-                .style ( "fill" , function (d) {
-                  var result = pairStateWithRange[d.properties.NAME_1];
-                  if (result!='') { return color(result); }                  
-                })
-                .style("opacity", 0.8)
-                .on("mouseover", function(d) {
-                   d3.select(this).transition().duration(300).style("opacity", 1);
-                   div.transition().duration(300)
-                   .style("opacity", 1)
-                   div.text(d.properties.NAME_1 + ': ' + pairStateWithNo[d.properties.NAME_1])
-                   .style("left", (d3.event.pageX) + "px")
-                   .style("top", (d3.event.pageY -30) + "px");
-                })
-                .on("mouseout", function() {
-                   d3.select(this)
-                   .transition().duration(300)
-                   .style("opacity", 0.8);
-                   div.transition().duration(300)
-                   .style("opacity", 0);
+                  //Determining the Range of data:
+                  switch(true) {
+                    case (len >= color_domain[2].length - 1) && (accNum < 20000): 
+                      range = 3;
+                      break;
+                    case (len >= color_domain[2].length - 1) && (accNum >= 20000):
+                      range = 4;
+                      break;
+                    case (len == 4) && (accNum < 10000):
+                      range = 2;
+                      break;
+                    case (len > 2) && (accNum < 1000):
+                      range = 1;
+                      break;
+                    case (len <= 2):
+                      range = 0;
+                      break;
+                  }
+                  pairStateWithRange[d.States] = color_domain[range];
                 });
-        }
+
+                var state_geojson = topojson.feature(state, state.objects.india_states);
+
+                //enter()
+                svg.selectAll(".state")
+                    .data(state_geojson.features)
+                    .enter()
+                      .append("path")
+                      .attr("class", "state")
+                      .attr("d", path)
+
+                //update()
+                svg.selectAll(".state")
+                    .style ( "fill" , function (d) {
+                      var result = pairStateWithRange[d.properties.NAME_1];
+                      if (result!='') { return color(result); }                  
+                    })
+                    .style("opacity", 0.8)
+                    .on("mouseover", function(d) {
+                       d3.select(this).transition().duration(100).style("opacity", 1);
+                       div.transition().duration(100)
+                       .style("opacity", 1)
+                       div.text(d.properties.NAME_1 + ': ' + pairStateWithNo[d.properties.NAME_1])
+                       .style("left", (d3.event.pageX) + "px")
+                       .style("top", (d3.event.pageY -30) + "px");
+                    })
+                    .on("mouseout", function() {
+                       d3.select(this)
+                       .transition().duration(50)
+                       .style("opacity", 0.8);
+                       div.transition().duration(50)
+                       .style("opacity", 0);
+                    });
+
+                //exit()
+                svg.selectAll(".state")
+                    .data(state_geojson.features)
+                    .exit()
+                    .remove();
+
+            }
+            //Default call on load
+            draw.call(this,"2016");
+
+            //Choose from Dropdown
+            d3.select('#yearOpts')
+              .on('change', function(){
+                yearSelected = eval(d3.select(this).property('value'));
+                draw.call(this,String(yearSelected));
+              });          
+          }
 
         //Set up for drawing html legend elements
         var legend = d3.select('.legend-scale')
