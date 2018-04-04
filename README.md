@@ -8,8 +8,10 @@ Data obtained from https://data.gov.in/
 
 To Do:
 ----------
-[x] Play the data
+[x] Play the data 
+
 [ ] Timeline 
+
 [ ] Toggle between data on hover
 
 
