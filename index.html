@@ -10,6 +10,7 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="http://d3js.org/topojson.v1.js"></script>
     <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
 
 
@@ -26,8 +27,10 @@
           <div class='legend-source'>Source: <a href="https://data.gov.in/">https://data.gov.in/</a></div>
         </div>
         <br/>
-        <p>Year: </p>
-        <select id = "yearOpts" class="selectpicker">
+        <button class="btn btn-info" id="play">Play</button>
+        <!-- <button class="btn btn-info" id="stop">Stop</button> -->
+        <p id="displayYear">Year: 2016</p>
+        <!-- <select id = "yearOpts" class="selectpicker">
           <option value="2003">2003</option>
           <option value="2004">2004</option>
           <option value="2005">2005</option>
@@ -42,7 +45,8 @@
           <option value="2014">2014</option>
           <option value="2015">2015</option>
           <option value="2016" selected="selected">2016</option>         
-        </select>
+        </select> -->
+
       </div>
       <div id="map" class="col-md-9"></div>
     </div>
