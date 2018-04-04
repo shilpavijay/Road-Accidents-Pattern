@@ -184,8 +184,7 @@ d3.select(window).on("resize", sizeChange);
               }
 
 
-          }
-        });  
+          }); 
 
         //Set up for drawing html legend elements
         // legendColorDomain =['<100','20000 & more'];
