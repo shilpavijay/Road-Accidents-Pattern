@@ -146,7 +146,7 @@ d3.select(window).on("resize", sizeChange);
             //        clearInterval(timer);  
             //        playing = false;
             //       }                
-            // });  
+            
 
 
             $("#play").on("click", function() {
@@ -185,6 +185,7 @@ d3.select(window).on("resize", sizeChange);
 
 
           }
+        });  
 
         //Set up for drawing html legend elements
         // legendColorDomain =['<100','20000 & more'];
@@ -206,7 +207,7 @@ d3.select(window).on("resize", sizeChange);
           .style('background', function(d) { return color(d);});
 
         //Function called when window is resized
-        function sizeChange() {
+        function sizeChange() { 
             d3.select("g").attr("transform", "scale(" + $("#container").width()/1000 + ")");
             $("svg").height($("#container").width()*0.75);
         }
