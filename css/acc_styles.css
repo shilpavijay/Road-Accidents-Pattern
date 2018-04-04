@@ -74,6 +74,7 @@ input[type='range'] {
   margin: 20px;
   /*position: relative;
    left: 10%;*/
+   
 }
 
 input[type='range']::-webkit-slider-thumb {
