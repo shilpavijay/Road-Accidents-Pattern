@@ -1,6 +1,7 @@
 An Analysis of Road Accidents in India occuring Every Year
 ----------------------------------------------
 
+<<<<<<< HEAD
 Here is an analysis of the number of Road Accidents taking place in India over the years.
 We can see state-wise breakdown of the data.
 
