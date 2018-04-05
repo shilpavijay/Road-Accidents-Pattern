@@ -146,7 +146,7 @@ d3.select(window).on("resize", sizeChange);
                    clearInterval(timer);  
                    playing = false;
                   }                
-            
+            });
 
 
           //   $("#play").on("click", function() {
