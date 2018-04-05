@@ -125,66 +125,66 @@ d3.select(window).on("resize", sizeChange);
             //Code for the 'Play' Button
             years = ['2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016'];
             
-            // d3.select('#play')
-            //   .on("click", function() {  
-            //     var idx = 0;   
-            //     var playing = false;       
-            //     if(playing == false){           
-            //       timer = setInterval(function() {                   
-            //         if (idx < years.length){
-            //           yearSelected = years[idx];
-            //           draw.call(this,String(yearSelected));  
-            //           d3.select("#displayYear").text("Year: " + yearSelected);
-            //           idx += 1;
-            //            } 
-            //         else {
-            //           playing = true;
-            //           }
-            //         },1500);                  
-            //     }
-            //     else {
-            //        clearInterval(timer);  
-            //        playing = false;
-            //       }                
+            d3.select('#play')
+              .on("click", function() {  
+                var idx = 0;   
+                var playing = false;       
+                if(playing == false){           
+                  timer = setInterval(function() {                   
+                    if (idx < years.length){
+                      yearSelected = years[idx];
+                      draw.call(this,String(yearSelected));  
+                      d3.select("#displayYear").text("Year: " + yearSelected);
+                      idx += 1;
+                       } 
+                    else {
+                      playing = true;
+                      }
+                    },1500);                  
+                }
+                else {
+                   clearInterval(timer);  
+                   playing = false;
+                  }                
             
 
 
-            $("#play").on("click", function() {
+          //   $("#play").on("click", function() {
     
-              var duration = 3000,
-                maxstep = 2011,
-                minstep = 2000;
+          //     var duration = 3000,
+          //       maxstep = 2011,
+          //       minstep = 2000;
               
-              if (playing == true) {
+          //     if (playing == true) {
               
-                $("#play").html("Play");
-                running = false;
-                clearInterval(timer);
+          //       $("#play").html("Play");
+          //       running = false;
+          //       clearInterval(timer);
                 
-              } 
-              else if (playing == false) {
+          //     } 
+          //     else if (playing == false) {
               
-                $("button").html("Pause");
+          //       $("button").html("Pause");
                 
-                sliderValue = $("#slider").val();
+          //       sliderValue = $("#slider").val();
                 
-                timer = setInterval( function(){
-                    if (sliderValue < maxstep){
-                      sliderValue++;
-                      $("#slider").val(sliderValue);
-                      $('#range').html(sliderValue);
-                    }
-                    $("#slider").val(sliderValue);
-                    update();
+          //       timer = setInterval( function(){
+          //           if (sliderValue < maxstep){
+          //             sliderValue++;
+          //             $("#slider").val(sliderValue);
+          //             $('#range').html(sliderValue);
+          //           }
+          //           $("#slider").val(sliderValue);
+          //           update();
                   
-                }, duration);
-                running = true;
+          //       }, duration);
+          //       running = true;
                 
                 
-              }
+          //     }
 
 
-          });
+          // });
       }      
 
         //Set up for drawing html legend elements
